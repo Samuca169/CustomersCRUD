@@ -29,4 +29,19 @@ public class ClientServices {
         return result.map(x -> new ClientDTO(x));
     }
 
+    @Transactional
+    public ClientDTO insert(ClientDTO dto) {
+        Client entity = new Client();
+        copy(entity, dto);
+        entity = repository.save(entity);
+        return new ClientDTO(entity);
+    }
+
+    public void copy(Client entity, ClientDTO dto) {
+        entity.setName(dto.getName());
+        entity.setCpf(dto.getCpf());
+        entity.setIncome(dto.getIncome());
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setChildren(dto.getChildren());
+    }
 }
