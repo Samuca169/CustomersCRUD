@@ -4,6 +4,7 @@ package com.samucabarr.customers_crud.services;
 import com.samucabarr.customers_crud.dto.ClientDTO;
 import com.samucabarr.customers_crud.entities.Client;
 import com.samucabarr.customers_crud.repositories.ClientRepository;
+import com.samucabarr.customers_crud.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,8 @@ public class ClientServices {
 
     @Transactional(readOnly = true)
     public ClientDTO clientById(Long id) {
-        Client client = repository.findById(id).get();
+        Client client = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("recurso não encontrado"));
         return new ClientDTO(client);
     }
 
